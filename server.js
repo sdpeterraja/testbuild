@@ -35,22 +35,28 @@ app.delete("/api_1/auth/users/:id", deleteUser);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-// 🔐 SSL CERT FILES (you must create these)
-const options = {
-  key: fs.readFileSync("./certs/private.key"),
-  cert: fs.readFileSync("./certs/certificate.crt"),
-};
-
 import http from "http";
 
-// ✅ HTTPS SERVER
-https.createServer(options, app).listen(5000, () => {
-  console.log("🚀 HTTPS Server running on https://localhost:5000");
-}).on('error', (err) => {
-  console.log("⚠️ Port 5000 might be in use.");
-});
+const PORT = process.env.PORT || 5001;
 
-// ✅ HTTP SERVER (for local dev without SSL issues)
-http.createServer(app).listen(5001, () => {
-  console.log("🚀 HTTP Server running on http://localhost:5001");
+try {
+  // 🔐 SSL CERT FILES
+  const options = {
+    key: fs.readFileSync("./certs/private.key"),
+    cert: fs.readFileSync("./certs/certificate.crt"),
+  };
+
+  // ✅ HTTPS SERVER
+  https.createServer(options, app).listen(5000, () => {
+    console.log("🚀 HTTPS Server running on https://localhost:5000");
+  }).on('error', (err) => {
+    console.log("⚠️ Port 5000 might be in use.");
+  });
+} catch (err) {
+  console.log("⚠️ SSL certs not found, skipping HTTPS server on port 5000.");
+}
+
+// ✅ HTTP SERVER (for production Render and local dev)
+http.createServer(app).listen(PORT, () => {
+  console.log(`🚀 HTTP Server running on port ${PORT}`);
 });
