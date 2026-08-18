@@ -17,7 +17,8 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "https://ccass-prototype.kaleyra.dev",
-	  "http://10.64.9.213:5173"
+	  "http://10.64.9.213:5173",
+	  "https://qa.ictxqa.in"
   ],
   methods: ["GET", "POST", "DELETE", "PUT"],
   credentials: true,
