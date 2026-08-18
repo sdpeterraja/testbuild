@@ -13,7 +13,8 @@ const __dirname = path.dirname(__filename);
 // ✅ CORS (supports both local + prod)
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://ccass-prototype.kaleyra.dev"
+  "https://ccass-prototype.kaleyra.dev",
+  "https://qa.ictxqa.in"
 ];
 
 app.use(cors({
